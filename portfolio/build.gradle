@@ -26,6 +26,19 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-security"
 	implementation "org.springframework.security:spring-security-messaging"
 	
+	
+	// 서버 사이드 구현을 위한 Netflix Feign 추가
+	implementation "com.netflix.feign:feign-core:8.18.0"
+	implementation "com.netflix.feign:feign-jackson:8.18.0"
+	implementation "com.netflix.feign:feign-gson:8.18.0"
+	implementation "com.netflix.feign:feign-okhttp:8.18.0"
+	
+	// OAuth2 _ 소셜로그인 구현 필요 + 외부 URL에서 확인.
+	// implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	// implementation 'org.springframework.security:spring-security-oauth2-client:5.2.0.RELEASE'
+	// implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.2.0.RELEASE'
+	
+	
 	// javax.xml.bind 사용
 	implementation "javax.xml.bind:jaxb-api"
 	
