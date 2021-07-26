@@ -1,22 +1,56 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.3'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id 'war'
+	id "org.springframework.boot" version "2.5.3"
+	id "io.spring.dependency-management" version "1.0.11.RELEASE"
+	id "java"
+	id "war"
 }
 
-group = 'jj.group'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+war {
+	enabled = true
+	baseName = "portfolio"
+}
+
+group = "jj.group"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = "1.8"
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-jdbc"
+	implementation "org.springframework.boot:spring-boot-starter-tomcat"
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.security:spring-security-messaging"
+	
+	// javax.xml.bind 사용
+	implementation "javax.xml.bind:jaxb-api"
+	
+	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1"
+	implementation "org.apache.tomcat:tomcat-jdbc"
+	implementation "org.slf4j:slf4j-api:1.7.26"
+	implementation "org.slf4j:jcl-over-slf4j:1.7.26"
+	implementation "ch.qos.logback:logback-classic:1.2.3"
+	implementation "org.aspectj:aspectjrt:1.9.2"
+	
+	// white label 404 error ( No mapping for GET 경로 못찾아서 추가 )
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	implementation "javax.inject:javax.inject:1"
+	implementation "javax.servlet:jstl"
+	implementation "javax.annotation:javax.annotation-api"
+	
+	compileOnly "org.projectlombok:lombok"
+	providedCompile "mysql:mysql-connector-java"
+	annotationProcessor "org.projectlombok:lombok"
+	
+	providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
+	
+	testImplementation("org.springframework.boot:spring-boot-starter-test") 
+	
 }
 
 test {

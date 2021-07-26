@@ -1,0 +1,63 @@
+$pc: 1200px;
+$note: 1024px;
+$tab: 850px;
+$tablet: 768px;
+$suf: 540px;
+$mobile: 480px;
+$min: 320px;
+
+$breakpoints: (
+	pc: $pc,
+	note: $note,
+	tab: $tab,
+	tablet: $tablet,
+	suf: $suf,
+	mobile: $mobile,
+	min: $min
+);
+
+@mixin responsive($wide) {
+	
+	@if $wide == pc {
+		@media only screen and (max-width: $pc) {
+			@content;
+		}
+	}
+
+	@else if $wide == note {
+		@media only screen and (max-width: $note) {
+			@content;
+		}
+	}
+
+	@else if $wide == tab {
+		@media only screen and (max-width: $tab) {
+			@content;
+		}
+	}
+
+	@else if $wide == tablet {
+		@media only screen and (max-width: $tablet) {
+			@content;
+		}
+	}
+
+	@else if $wide == suf {
+		@media only screen and (max-width: $suf) {
+			@content;
+		}
+	}
+
+	@else if $wide == mobile {
+		@media only screen and (max-width: $mobile) {
+			@content;
+		}
+	}
+
+	@else if $wide == min {
+		@media only screen and (max-width: $min) {
+			@content;
+		}
+	}
+
+}
