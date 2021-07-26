@@ -14,6 +14,7 @@ const App = () => {
 			<Switch>
 				<Route path="/" component={Display} exact />
 				<Route path="/display" component={Test} exact />
+				<Route path="/gallery" component={Test} exact />
 			</Switch>
 		</>
 	);

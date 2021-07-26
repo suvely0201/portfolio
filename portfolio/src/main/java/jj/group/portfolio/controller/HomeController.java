@@ -30,5 +30,14 @@ public class HomeController {
 		return mav;
 		
 	}
-	
+
+	@RequestMapping(value="/gallery", method=RequestMethod.GET)
+	public ModelAndView gallery() throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		
+		return mav;
+		
+	}
 }
