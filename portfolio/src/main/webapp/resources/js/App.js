@@ -6,7 +6,9 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 library.add( faUser );
 
 import Router from "./router/Router"
+
 import header from "../style/header.scss";
+import login from "../style/login.scss";
 
 const GlobalBlock = createGlobalStyle`
 	body, html {
