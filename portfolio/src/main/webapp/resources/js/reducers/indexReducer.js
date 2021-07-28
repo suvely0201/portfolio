@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import displayReducer from "./displayReducer";
-import accountReducer from "./accountReducer";
+// import displayReducer from "./displayReducer";
+// import accountReducer from "./accountReducer";
+import UserReducer from "./UserReducer";
 
 const indexReducer = combineReducers({
-	displayReducer,
-	accountReducer,
+	UserReducer,
 });
 
 export default indexReducer;

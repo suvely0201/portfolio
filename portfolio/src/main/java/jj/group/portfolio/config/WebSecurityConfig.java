@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.formLogin()
 				.loginPage("/login")
-					//.loginProcessingUrl("/loginproc")
+					.loginProcessingUrl("/loginproc")
 			.and()
 			.authorizeRequests()
 				// CorsUtil PreFlight 요청은 인증처리 하지 않겠다는 의미

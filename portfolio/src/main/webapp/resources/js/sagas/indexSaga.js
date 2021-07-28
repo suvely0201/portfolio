@@ -1,9 +1,9 @@
 import { all } from "redux-saga/effects";
-import { displaySaga } from "./displaySaga";
+import { UserWatch } from "./UserSaga";
 
 export function* indexSaga() {
 	yield all([
-		displaySaga(),
+		UserWatch(),
 	]);
 };
 

@@ -42,26 +42,12 @@ if(fileSystem.existsSync(reduxSaga) && fileSystem.existsSync(nodeModules)) {
 	}
 	
 	module.exports = {
-		/*optimization: {
-			minimizer: [
-				new UglifyJsPlugin ({
-					cache: true,
-					parallel: true,
-					uglifyOptions: {
-						compress: {
-							warnings: false,
-						},
-						ecma: 6,
-						mangle: true
-					},
-					sourceMap: true
-				})
-			]
-		},*/
+		
 		entry: {
 			index: path.join(__dirname, "src", "main", "webapp", "resources", "js", "index"), // .../portfolio/src/main/webapp/resources/js/index.js
 		},
-		mode: "development",
+
+		mode: "production",
 		// cache: true,
 		devtool: "sourcemaps",
 		plugins: [
@@ -69,10 +55,9 @@ if(fileSystem.existsSync(reduxSaga) && fileSystem.existsSync(nodeModules)) {
 			new webpack.HotModuleReplacementPlugin(), // dev-server 모드에서 Hot Module Replace를 가능하게 해준다.
 			new webpack.NoEmitOnErrorsPlugin(), // 컴파일 도중 오류가 발생한 리소스들은 제외하고 bundling한다.
 			new webpack.DefinePlugin({ // 컴파일할 코드에서 특정 문자열을 설정한 값으로 치환.
-				"process.env.NODE_ENV": JSON.stringify("development"),
-				"MAIN_HOST": JSON.stringify("http://localhost:8080/portfolio"),
-				"AUTH_HOST": JSON.stringify("http://localhost:8081/portfolioauth"),
-				"RESOURCE_HOST": JSON.stringify("http://localhost:8082/portfolioapi"),
+				"process.env.NODE_ENV": JSON.stringify("production"),
+				"MAIN_HOST": JSON.stringify("http://localhost:8080/"),
+				"RESOURCE_HOST": JSON.stringify("http://localhost:8081/"),
 				"OPEN_WEATHER_HOST": JSON.stringify("https://api.openweathermap.org/data/2.5/weather"),
 			}),
 			new MiniCssExtractPlugin({
@@ -222,6 +207,7 @@ if(fileSystem.existsSync(reduxSaga) && fileSystem.existsSync(nodeModules)) {
 			path: path.join(__dirname, "src", "main", "webapp", "resources", "built"),
 			filename: "bundle.js",
 		}
+
 	}
 	
 }
