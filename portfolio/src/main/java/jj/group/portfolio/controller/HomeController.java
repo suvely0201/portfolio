@@ -13,7 +13,6 @@ public class HomeController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest req) throws Exception {
 		
-		System.out.println("???????");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index");
 		
@@ -40,4 +39,15 @@ public class HomeController {
 		return mav;
 		
 	}
+	
+	@RequestMapping(value="/err", method=RequestMethod.GET)
+	public ModelAndView err_page() throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		
+		return mav;
+		
+	}
+	
 }

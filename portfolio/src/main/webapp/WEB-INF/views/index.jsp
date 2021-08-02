@@ -1,7 +1,3 @@
-<!-- 가상 DOM이 들어가기 위한 빈껍데기 -->
-<!-- id="root"에 가상 DOM이 들어감 -->
-<!-- root는 index.js에서 설정 -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>

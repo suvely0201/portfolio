@@ -3,13 +3,13 @@
 <mapper namespace="jj.group.portfolio.dao.login">
 	
 	<!-- 로그인 시도 -->
-	<select id="login" resultType="java.util.HashMap">
+	<select id="login" parameterType="jj.group.portfolio.object.dto.UserDto" resultType="jj.group.portfolio.object.vo.LoginVo">
 		SELECT
 			email AS email,
 			username AS username,
 			password AS password
 		FROM
-			users
+			test1
 		WHERE
 			username = #{username}
 	</select>

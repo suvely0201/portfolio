@@ -5,6 +5,7 @@ import Header from "../views/components/Header";
 import Display from "../views/pages/Display";
 import Login from "../views/pages/Login";
 import Test from "../views/pages/Test";
+import Error from "../views/pages/Error";
 
 const App = () => {
 	//<Route path="/gms/:idv" component={PostPage} />
@@ -17,6 +18,7 @@ const App = () => {
 				<Route path="/display" component={Test} exact />
 				<Route path="/gallery" component={Test} exact />
 				<Route path="/login" component={Login} exact />
+				<Route path="/err" component={Error} exact />
 			</Switch>
 
 		</>

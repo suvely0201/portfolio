@@ -164,6 +164,11 @@ function Header() {
 
 	}
 
+	// 로그인 폼 이동
+	const loginForm = () => {
+		window.location.href = "/login";
+	}
+
 	// function
 	function mobileLangFunc(language) {
 		
@@ -266,7 +271,7 @@ function Header() {
 					<li onClick={selectLang}>CHN</li>
 				</ul>
 			</div>
-				<div className="user_wrap">
+				<div className="user_wrap" onClick={loginForm}>
 					<div className="icon_wrap">
 						<FontAwesomeIcon icon="user" />
 					</div>

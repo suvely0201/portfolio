@@ -12,9 +12,8 @@ const axiosMain = axios.create({
 const axiosFormData = axios.create({
 	baseURL: MAIN_HOST,
 	timeout: 180000,
-	transformRequest: [(response) => (response)],
 	header: {
-		"Content-Type": false
+		"Content-Type": "multipart/form-data"
 	}
 });
 

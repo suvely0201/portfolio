@@ -1,5 +1,7 @@
 package jj.group.portfolio.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +16,20 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jj.group.portfolio.filter.AccessDeniedFilter;
+import jj.group.portfolio.filter.AuthenticationEntryPointFilter;
 import jj.group.portfolio.filter.AuthenticationFilter;
+import jj.group.portfolio.util.AuthFailureUtil;
+import jj.group.portfolio.util.AuthSuccessUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +42,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// 커스텀인증
 	@Autowired
 	private AuthenticationFilter authProvider;
+
+	// 인증이 되지 않은 유저가 요청했을 때 동작
+	@Autowired
+	private AuthenticationEntryPointFilter authenticationEntryPoint;
+	
+	// 서버에 요청할 때 access가 가능한지 권한을 체크한 후 access할 수 없을 때 동작
+	@Autowired
+	private AccessDeniedFilter accessDeniedHandler;
+	
 	
 	// security가 무시하는 부분
 	@Override
@@ -65,6 +86,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login")
 					.loginProcessingUrl("/loginproc")
+						.successHandler(authSuccessUtil())
+						.failureHandler(authFailureUtil())
+			.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.deleteCookies("cookieName")
+					.clearAuthentication(true)
+					.invalidateHttpSession(true)
+					.logoutSuccessUrl("/")
 			.and()
 			.authorizeRequests()
 				// CorsUtil PreFlight 요청은 인증처리 하지 않겠다는 의미
@@ -78,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/gallery/**")
 					.hasAnyRole("ANONYMOUS", "GUEST")
 				.antMatchers("/loginproc")
-				.permitAll()
+					.permitAll()
 				// 나머지 숨기기
 				.anyRequest()
 					.authenticated();
@@ -89,6 +119,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.maxSessionsPreventsLogin(false) // true = 동일 사용자가 로그인 한 경우 로그인 안된다. false = 동일 사용자 로그인 한 경우 기존 사용자 접속 종료
 			.expiredUrl("/") // 중복 로그인이 일어났을 경우 이동할 페이지
 			.sessionRegistry(sessionRegistry());
+		
+		http
+			.exceptionHandling()
+//			.authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청했을 때 동작
+			.accessDeniedHandler(accessDeniedHandler); // 서버에 요청할 때 access가 가능한지 권한을 체크한 후 access할 수 없을 때 동작
 
     }
 	
@@ -116,14 +151,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	}
 	// security success handler
-//	@Bean
-//	public AuthenticationSuccessHandler successUtil() {
-//		return new SuccessUtil();
-//	}
+	@Bean
+	public AuthenticationSuccessHandler authSuccessUtil() {
+		return new AuthSuccessUtil();
+	}
 	
 	// security failure handler
-//	@Bean
-//	public AuthenticationFailureHandler failureUtil() {
-//		return new FailureUtil();
-//	}
+	@Bean
+	public AuthenticationFailureHandler authFailureUtil() {
+		return new AuthFailureUtil();
+	}
+	
+	// CORS 정책 수립
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		
+		// http://localhost:8081 으로 오는 것을 허용 이거 추가해주면 다른데서 gdms접근가능
+		corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+		
+		corsConfig.setAllowCredentials(true);
+		corsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "X-XSRF-TOKEN", "Authorization", "Content-Length", "X-Requested-With")); // Header
+		corsConfig.setAllowedMethods(Arrays.asList("*")); // GET, POST 같은 것
+		corsConfig.setMaxAge(3600L);
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfig);
+		
+		return source;
+		
+	}
+	
 }

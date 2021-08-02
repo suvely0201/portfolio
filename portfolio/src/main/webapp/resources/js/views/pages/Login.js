@@ -1,45 +1,40 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import * as UserReducer from "../../reducers/UserReducer";
 
 const doc = window.document;
 function Login() {
 	
 	const [ id, setId ] = useState("");
 	const [ pw, setPw ] = useState("");
+	const [ err, setErr ] = useState("");
 	const form = doc.getElementsByClassName("login_form");
-
-	const dispatch = useDispatch();
 
 	const login = (e) => {
 
 		// 페이지 refresh 방지
 		e.preventDefault();
-		//e.stopPropagation();
+		e.stopPropagation();
 
-		// form 태그가 아니라 div태그에 button 클릭 이벤트로 동작시켜도 상관없음.
-		console.log("lgin");
-
-		let lgn = new Object();
-		lgn.username = id;
-		lgn.password = pw;
-
-		// axois 서버로 보내야 함.
-		//dispatch(UserReducer.loginProc(lgn));
-
+		// 넘길 계정 정보
+		let lgn = new FormData();
+		lgn.append("username", id);
+		lgn.append("password", pw);
+		
 		axios("/loginproc", {
 			method: "POST",
-			auth: {
-				username: id,
-				password: pw
-			}
-		}).then((response => {
-			console.log(response)
-		})).catch((err=>{
+			data: lgn,
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+		}).then((response) => {
+			console.log(response);
+			const authCode = response.data._auth_._authCode;
+			const authResult = response.data._auth_._authMessage || response.data._auth_._redirectUrl;
+			handleResult(authCode, authResult);
+			
+		}).catch((err) => {
 			console.log(err)
-		}));
-
+		});
 	};
 
 	// ID, PW 클릭하면 input 박스로 포커싱 변경
@@ -62,14 +57,21 @@ function Login() {
 	// 직접적인 input 포커싱
 	const inputClick = (e) => {
 		
-		console.log("!@3123 adddf");
-
 		Array.from(form).forEach((e, i) => {
 			form[i].classList.remove("active");
 		});
 
 		e.currentTarget.parentNode.classList.add("active");
 
+	}
+
+	// 로그인 이후 처리
+	const handleResult = (code, info) => {
+		
+		code === "auth_01" ? 
+			window.location.href = info:
+			setErr(info)
+		
 	}
 
 	useEffect(() => {
@@ -112,7 +114,9 @@ function Login() {
 							<label htmlFor="remember"></label>
 							<span>remember me</span>
 						</div>
-						
+						<div className="login_failure">
+							<p>{err}</p>	
+						</div>
 						<div className="login_btn">
 							<button className="login_submit_btn" type="submit">Sign In</button>
 						</div>
