@@ -10,12 +10,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import jj.group.portfolio.dao.LoginDao;
 import jj.group.portfolio.object.dto.UserDto;
+import jj.group.portfolio.object.vo.AuthorityVo;
 import jj.group.portfolio.object.vo.LoginVo;
 import jj.group.portfolio.util.AES256;
 
@@ -51,11 +53,11 @@ public class AuthenticationFilter implements AuthenticationProvider {
 				
 				// 권한을 가져와서 권한 리스트에 넣는다.
 				List<GrantedAuthority> authorityRoles = new ArrayList<GrantedAuthority>();
-				/*login.setUserAuthority(userDao.authority(vo));
+				login.setUserAuthority(loginDao.getAuthority(dto));
 				
 				for(AuthorityVo authRole : login.getUserAuthority()) {
 					authorityRoles.add(new SimpleGrantedAuthority(authRole.getAuthority()));
-				}*/
+				}
 				
 				return new UsernamePasswordAuthenticationToken(username, password, authorityRoles);
 				

@@ -106,7 +106,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.hasRole("ANONYMOUS")
 				// 갤러리는 인증되지 않은 사용자 + GUEST_임시
 				.antMatchers("/gallery/**")
-					.hasAnyRole("ANONYMOUS", "GUEST")
+					.hasAnyRole("ANONYMOUS", "GUEST", "CLIENT", "GLAAM", "ADMIN")
+				.antMatchers("/solution/**")
+					.hasAnyRole("GLAAM", "ADMIN")
 				.antMatchers("/loginproc")
 					.permitAll()
 				// 나머지 숨기기

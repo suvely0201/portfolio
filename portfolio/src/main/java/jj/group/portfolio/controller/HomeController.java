@@ -40,6 +40,16 @@ public class HomeController {
 		
 	}
 	
+	@RequestMapping(value="/solution", method=RequestMethod.GET)
+	public ModelAndView solution() throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		
+		return mav;
+		
+	}
+	
 	@RequestMapping(value="/err", method=RequestMethod.GET)
 	public ModelAndView err_page() throws Exception {
 		

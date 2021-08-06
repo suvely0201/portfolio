@@ -5,13 +5,22 @@
 	<!-- 로그인 시도 -->
 	<select id="login" parameterType="jj.group.portfolio.object.dto.UserDto" resultType="jj.group.portfolio.object.vo.LoginVo">
 		SELECT
-			email AS email,
-			username AS username,
-			password AS password
+			id AS username,
+			password
 		FROM
-			test1
+			users
 		WHERE
-			username = #{username}
+			id = #{username}
+	</select>
+	
+	<!-- 로그인 시도 -->
+	<select id="getAuthority" parameterType="jj.group.portfolio.object.dto.UserDto" resultType="jj.group.portfolio.object.vo.AuthorityVo">
+		SELECT
+			authority
+		FROM
+			authorities
+		WHERE
+			id = #{username}
 	</select>
 	
 </mapper>
